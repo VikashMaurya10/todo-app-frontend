@@ -8,7 +8,7 @@ function App() {
   const addTodo = () => {
     axios({
       method: 'post',
-      url: 'https://todo-app-backend-3byd.vercel.app/add',
+      url: 'https://todo-app-backend-ls4r-git-test-vikashmaurya10.vercel.app/add',
       data: { data: note }
     }).then((res) => {
       console.log(res);
