@@ -1,37 +1,98 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import trash from '../assets/trash.gif'
+
+
 
 const InsertTodo = () => {
     const [note, setNote] = useState('')
+    const [allTodo, setAllToDo] = useState([])
+    const base_URL = import.meta.env.VITE_BASE_URL
 
+    // add new todo
     const addTodo = () => {
         if (note.trim().length > 0) {
             axios({
                 method: 'post',
-                // url: 'https://todo-app-backend-ls4r-git-test-vikashmaurya10.vercel.app/add',
-                url: 'http://localhost:5001/add',
+                url: `${base_URL}/add`,
                 data: { data: note }
             }).then((res) => {
+                setNote('')
+                toast.success('Todo saved 😊');
+                getAllTodos()
                 console.log(res.data);
-            }).catch(err => console.log(err))
-            toast.success('Todo saved 😊');
+            }).catch((err) => {
+                toast.error('Network error Todo not saved 🪲');
+                console.log(err);
+            })
         }
         else {
-            toast.warn('To do could not be empty 🤦‍♂️');
+            toast.warn('Todo could not be empty 🤦‍♂️');
         }
     }
+
+    // get all todos list
+    const getAllTodos = () => {
+        axios({
+            method: 'get',
+            url: `${base_URL}/list-todos`
+        }).then((res) => {
+            setAllToDo(res.data.data)
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
+
+    // delete a todo by id
+    const deleteTodo = (id) => {
+        axios({
+            method: 'delete',
+            url: `${base_URL}/delete/${id}`,
+        }).then((res) => {
+            getAllTodos()
+            console.log(res.data.data);
+            toast.success("Todo deleted 👍")
+
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
+
+    useEffect(() => {
+        getAllTodos()
+    }, [])
+
+
     return (
-        <section>
-            <div className='bg-gray-300 px-2 py-1 rounded flex gap-3'>
-                <input type="text" className='bg-transparent focus:outline-none text-base' placeholder="Note here..."
-                    onChange={(e) => {
-                        setNote(e.target.value)
-                    }}
-                />
-                <button className='text-red-900' onClick={addTodo}> Add</button>
-            </div>
-        </section>
+        <>
+            <section>
+                <div className='bg-gray-300 px-2 py-1 rounded flex gap-3'>
+                    <input type="text" className='bg-transparent focus:outline-none text-base' placeholder="Note here..."
+                        value={note}
+                        onChange={(e) => {
+                            setNote(e.target.value)
+                        }}
+                    />
+                    <button className='text-red-900' onClick={addTodo}> Add</button>
+                </div>
+            </section>
+            <section className='w-[200px]'>
+                {
+                    allTodo?.map((value, index) => {
+                        const { _id, data } = value
+                        return (
+                            <div key={index} className='flex justify-between w-full bg-slate-900 mt-2 p-2  rounded-md'>
+                                <p className='text-white' >{data}</p>
+                                <div className='h-6 w-6 cursor-pointer' onClick={() => {
+                                    deleteTodo(_id)
+                                }}><img className='object-contain w-full h-full' src={trash} alt="loading" /></div>
+                            </div>
+                        )
+                    })
+                }
+            </section>
+        </>
     )
 }
 

@@ -5,12 +5,13 @@ import { toast } from "react-toastify"
 
 const GetAllTodos = () => {
     const [allTodo, setAllToDo] = useState([])
+    const base_URL = import.meta.env.VITE_BASE_URL
 
     // get all todos list
     const getAllTodos = () => {
         axios({
             method: 'get',
-            url: "http://localhost:5001/list-todos"
+            url: `${base_URL}/list-todos`
         }).then((res) => {
             setAllToDo(res.data.data)
         }).catch((err) => {
@@ -22,10 +23,10 @@ const GetAllTodos = () => {
     const deleteTodo = (id) => {
         axios({
             method: 'delete',
-            url: `http://localhost:5001/delete/${id}`,
+            url: `${base_URL}/delete/${id}`,
         }).then((res) => {
-            console.log(res.data.data);
             getAllTodos()
+            console.log(res.data.data);
             toast.success("Todo deleted 👍")
 
         }).catch((err) => {
@@ -36,6 +37,7 @@ const GetAllTodos = () => {
     useEffect(() => {
         getAllTodos()
     }, [])
+    
     return (
         <section className='w-[200px]'>
             {
