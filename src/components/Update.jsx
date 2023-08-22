@@ -71,19 +71,19 @@ const Update = () => {
   }
 
   return (
-    <div>
-      <textarea className='outline-none p-2 block rounded' cols="70" rows="15"
+    <div className='w-[90%] sm:w-[550px] sm:h-[400px]'>
+      <textarea className='outline-none p-2 block rounded w-full h-full'
         value={newData}
         onChange={(e) => {
           setNewData(e.target.value)
         }}
       ></textarea>
       <div className='flex justify-between mt-2 gap-4'>
-        <button className='bg-green-600 py-1 w-1/3 rounded text-white hover:bg-green-900 transition-all duration-300'
+        <button className='bg-green-600 py-1 px-1 w-1/3 rounded text-white hover:bg-green-900 transition-all duration-300'
 
           onClick={handleCancelBtn}
         >cancel</button>
-        <button className='bg-blue-600 py-1 w-1/3 rounded text-white  hover:bg-blue-900 transition-all duration-300'
+        <button className='bg-blue-600 py-1 px-1 w-1/3 rounded text-white  hover:bg-blue-900 transition-all duration-300'
           onClick={handleUpdateBtn}
         >Update</button>
       </div>
