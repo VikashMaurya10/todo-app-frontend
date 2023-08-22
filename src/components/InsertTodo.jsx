@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import trash from '../assets/trash.gif'
+import { LuEdit } from 'react-icons/lu'
+import { NavLink } from 'react-router-dom'
 
 
 
@@ -59,6 +61,7 @@ const InsertTodo = () => {
         })
     }
 
+
     useEffect(() => {
         getAllTodos()
     }, [])
@@ -77,19 +80,26 @@ const InsertTodo = () => {
                     <button className='text-red-900' onClick={addTodo}> Add</button>
                 </div>
             </section>
-            <section className='w-[200px]'>
+            <section className='w-[235px]'>
                 {
-                    allTodo?.map((value, index) => {
-                        const { _id, data } = value
-                        return (
-                            <div key={index} className='flex justify-between w-full bg-slate-900 mt-2 p-2  rounded-md'>
-                                <p className='text-white' >{data}</p>
-                                <div className='h-6 w-6 cursor-pointer' onClick={() => {
-                                    deleteTodo(_id)
-                                }}><img className='object-contain w-full h-full' src={trash} alt="loading" /></div>
-                            </div>
-                        )
-                    })
+                    allTodo.length != 0 ?
+                        <>{allTodo?.map((value, index) => {
+                            const { _id, data } = value
+                            return (
+                                <div key={index} className='flex justify-between w-full bg-slate-900 mt-2 p-2  rounded-md'>
+                                    <p className='text-white' >{data}</p>
+                                    <div className='h-6 flex items-center'>
+                                        <img className='object-contain h-full cursor-pointer' src={trash} onClick={() => {
+                                            deleteTodo(_id)
+                                        }} alt="loading" />
+
+                                        <NavLink to={`/update/${_id}`}>
+                                            <LuEdit className=" text-white  cursor-pointer" /></NavLink>
+                                    </div>
+                                </div>
+                            )
+                        })}</>
+                        : (<p>Task not yet!</p>)
                 }
             </section>
         </>
