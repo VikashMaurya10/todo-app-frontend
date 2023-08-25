@@ -46,7 +46,6 @@ const Update = () => {
   }, [])
 
   const handleUpdateBtn = () => {
-
     if (newData.trim().length === 0) {
       toast.warn("You can't update🤦‍♂️")
       return

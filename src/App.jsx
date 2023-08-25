@@ -6,13 +6,19 @@ import './App.css'
 
 import InsertTodo from './components/InsertTodo'
 import Update from './components/Update'
+import Home from './routes/Home';
+import Create from './routes/Create';
 
 function App() {
   return (
-    <main className='flex flex-col justify-center items-center bg-gray-400 h-screen'>
+    <main className='bg-gary min-h-screen bg-gradient-to-r from-cyan p-4'>
       <Routes>
-        <Route path="/" element={<InsertTodo />} />
-        <Route path="/update/:id" element={<Update />} />
+
+        <Route path='/' element={<Home />} />
+        <Route path='/create' element={<Create />} />
+
+        {/* <Route path="/" element={<InsertTodo />} /> */}
+        {/* <Route path="/update/:id" element={<Update />} /> */}
 
         {/* <GetAllTodos /> */}
 

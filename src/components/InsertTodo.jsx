@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import trash from '../assets/trash.gif'
 import { LuEdit } from 'react-icons/lu'
 import { NavLink } from 'react-router-dom'
+import TodoShowCase from './TodoShowCase'
 
 
 
@@ -70,17 +71,17 @@ const InsertTodo = () => {
     return (
         <>
             <section>
-                <div className='bg-gray-300 px-2 py-1 rounded flex gap-3'>
-                    <input type="text" className='bg-transparent focus:outline-none text-base' placeholder="Note here..."
+                <div className='bg-gray-300 px-2 py-1 rounded w-60 h-60'>
+                    <textarea className='text-base w-full h-5/6 bg-transparent outline-none' placeholder="Note here..."
                         value={note}
                         onChange={(e) => {
                             setNote(e.target.value)
                         }}
-                    />
+                    ></textarea >
                     <button className='text-red-900' onClick={addTodo}> Add</button>
                 </div>
             </section>
-            <section className='w-[235px]'>
+            {/* <section className='w-[235px]'>
                 {
                     allTodo.length != 0 ?
                         <>{allTodo?.map((value, index) => {
@@ -101,7 +102,8 @@ const InsertTodo = () => {
                         })}</>
                         : (<p>Task not yet!</p>)
                 }
-            </section>
+            </section> */}
+            <TodoShowCase />
         </>
     )
 }
