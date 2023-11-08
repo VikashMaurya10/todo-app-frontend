@@ -1,9 +1,35 @@
-name: Start building
-'on': push
+name: Vite App Deployment
+
+on:
+  push:
+    branches:
+      - main # Change this to your main branch name
+
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - run: echo "🔎 The name of your branch is"
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install dependencies
+        run: npm install # or yarn install if you're using Yarn
+
+      - name: Build the app
+        run: npm run build # or yarn build if you're using Yarn
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }} # GitHub Personal Access Token with repo scope
+          BRANCH: gh-pages # Branch to deploy to (change if using a different branch)
+          FOLDER: dist # Vite.js output directory
+
+
+      # You might need to modify the above steps based on your specific deployment needs.
