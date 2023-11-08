@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 
 const Home = () => {
     const [allTodo, setAllToDo] = useState([])
-    const [imp, setImp] = useState(false)
+    // const [imp, setImp] = useState(false)
 
     const base_URL = import.meta.env.VITE_BASE_URL
     const Navigate = useNavigate()
@@ -44,36 +44,8 @@ const Home = () => {
         })
     }
 
-    // remove todo from important list 
-    const removeFormImpList = (id) => {
-        // setImp(prevImp => !prevImp)
-        axios({
-            method: 'put',
-            url: `${base_URL}/update`,
-            data: {
-                id: id,
-                important: imp
-            }
-        }).then((res) => {
-            toast.success("Todo Updated 👍")
-            console.log(res);
-        }).catch((err) => {
-            console.log(err);
-            toast.success("Todo not Updated 🪲")
-        })
-        // setAllToDo((prevData) => prevData.filter((item) => item._id !== id));
-    }
-
-    const handleBookmarked = (id) => {
-        setImp(!imp)
-        removeFormImpList(id)
-        getAllTodos()
-        console.log('add', imp);
-    }
-
     useEffect(() => {
         getAllTodos()
-        console.log(imp);
     }, [])
 
     return (
@@ -103,12 +75,8 @@ const Home = () => {
                                                 important,
                                                 createdAt,
                                                 updatedAt,
-                                                imp,
                                                 deleteTodo,
                                                 getAllTodos,
-                                                removeFormImpList,
-                                                setImp,
-                                                handleBookmarked
                                             }}
                                         />
                                     )
@@ -135,12 +103,8 @@ const Home = () => {
                                                     important,
                                                     createdAt,
                                                     updatedAt,
-                                                    imp,
                                                     deleteTodo,
                                                     getAllTodos,
-                                                    removeFormImpList,
-                                                    setImp,
-                                                    handleBookmarked
                                                 }}
                                             />
                                         )

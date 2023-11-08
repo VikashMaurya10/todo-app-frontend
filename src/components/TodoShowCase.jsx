@@ -1,10 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { TbChecks } from 'react-icons/tb'
 import { BsFillBookmarkFill, BsBookmark } from 'react-icons/bs'
 import { FaTrashAlt } from 'react-icons/fa'
 import { RiCheckboxCircleFill } from 'react-icons/ri'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 const TodoShowCase = ({ _this }) => {
+    const [imp, setImp] = useState(false)
+    const base_URL = import.meta.env.VITE_BASE_URL
+
+    // remove todo from important list 
+    const removeFormImpList = (id) => {
+        axios({
+            method: 'put',
+            url: `${base_URL}/update`,
+            data: {
+                id: id,
+                important: imp
+            }
+        }).then((res) => {
+            toast.success("Todo Updated 👍")
+            console.log(res);
+        }).catch((err) => {
+            console.log(err);
+            toast.success("Todo not Updated 🪲")
+        })
+        // setAllToDo((prevData) => prevData.filter((item) => item.important ? item._id !== id : item));
+    }
 
     // console.log(_this);
     const convertTo12HourTimeInIndia = () => {
@@ -25,7 +48,7 @@ const TodoShowCase = ({ _this }) => {
     }
 
     return (
-        <div className={`group ${_this.important ? 'bg-imp' : ''} relative w-[250px] h-[150px] rounded p-2 overflow-hidden`} >
+        <div className={`group ${_this.important ? 'bg-imp' : imp ? 'bg-imp' : ''} relative w-[250px] h-[150px] rounded p-2 overflow-hidden`} >
             <div className='w-full h-full relative' >
                 <h1>{_this.title}</h1>
                 <div className='overflow-hidden flex flex-col '>
@@ -41,20 +64,18 @@ const TodoShowCase = ({ _this }) => {
             <div className='absolute left-0 bottom-0 h-0 w-full p-0 flex justify-evenly items-center group-hover:h-[50px] group-hover:p-1 transition-all duration-300 overflow-hidden backdrop-blur-[2px] bg-white/30' >
                 <RiCheckboxCircleFill className='text-2xl cursor-pointer text-done' />
                 {
-                    _this.important ? <BsFillBookmarkFill className='text-xl cursor-pointer text-imp'
+                    _this.important || imp ? <BsFillBookmarkFill className='text-xl cursor-pointer text-imp'
                         onClick={() => {
-                            _this.setImp(false)
-                            _this.removeFormImpList(_this._id)
+                            setImp(!imp)
+                            removeFormImpList(_this._id)
                             _this.getAllTodos()
-                            console.log('remove', _this.imp);
                         }}
                     /> : <BsBookmark className='text-xl cursor-pointer'
                         onClick={() => {
-                            _this.handleBookmarked(_this._id)
-                            // _this.setImp(true)
-                            // _this.removeFormImpList(_this._id)
-                            // _this.getAllTodos()
-                            // console.log('add', _this.imp);
+                            setImp(!imp)
+                            removeFormImpList(_this._id)
+                            _this.getAllTodos()
+
                         }}
                     />
                 }
