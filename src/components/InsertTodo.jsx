@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import trash from '../assets/trash.gif'
-// import { LuEdit } from 'react-icons/lu'
+import { LuEdit } from 'react-icons/lu'
 import { NavLink } from 'react-router-dom'
 
 
@@ -94,8 +94,7 @@ const InsertTodo = () => {
                                         }} alt="loading" />
 
                                         <NavLink to={`/update/${_id}`}>
-                                            {/* <LuEdit className=" text-white  cursor-pointer" /> */}
-                                            upd
+                                            <LuEdit className=" text-white  cursor-pointer" />
                                         </NavLink>
                                     </div>
                                 </div>
